@@ -232,10 +232,15 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
 @keyframes ticker{ from{ transform: translateX(0);} to{ transform: translateX(-33.333%);} }
 
 /* ============ ROUTE ============ */
-/* ============ 3D SCROLL JOURNEY ============ */
+/* ============ 3D SCROLL JOURNEY — image-backed beats ============ */
 .journey-wrap{ position:relative; z-index:1; background: #0A0D14; color: #F3EEE3;}
-.journey-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; background: radial-gradient(ellipse at 50% 40%, #11161F 0%, #0A0D14 70%);}
-.journey-canvas{ position:absolute; inset:0; width:100%; height:100%; display:block;}
+.journey-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; background: #0A0D14;}
+.journey-canvas{ display:none;} /* old Three.js canvas retired */
+.journey-bg{ position:absolute; inset:0; width:100%; height:100%;}
+.journey-bg .jbg{ position:absolute; inset:0; background-size: cover; background-position: center; opacity:0; transition: opacity .9s cubic-bezier(.4,0,.2,1), transform 1.8s cubic-bezier(.2,.7,.2,1); transform: scale(1.08);}
+.journey-bg .jbg.active{ opacity:1; transform: scale(1);}
+.journey-bg::after{ content:""; position:absolute; inset:0; background: linear-gradient(90deg, rgba(10,13,20,0.85) 0%, rgba(10,13,20,0.45) 42%, rgba(10,13,20,0.15) 70%, rgba(10,13,20,0.55) 100%); pointer-events:none;}
+.journey-bg--right::after{ background: linear-gradient(270deg, rgba(10,13,20,0.85) 0%, rgba(10,13,20,0.45) 42%, rgba(10,13,20,0.15) 70%, rgba(10,13,20,0.55) 100%);}
 .journey-beats{ position:relative; z-index:2; margin-top: -100vh;}
 .jbeat{ min-height: 100vh; display:flex; align-items:center; padding: 80px var(--pad); position:relative;}
 .jbeat-inner{ max-width: 560px; width: 100%;}
@@ -680,6 +685,13 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
 <!-- 3D SCROLL JOURNEY — 5 beats pinned to a sticky WebGL canvas -->
 <section class="journey-wrap" id="journey">
   <div class="journey-sticky">
+    <div class="journey-bg" id="journeyBg" aria-hidden="true">
+      <div class="jbg jbg-0 active" data-beat="0" style="background-image: url('assets/journey/beat-modes.jpg');"></div>
+      <div class="jbg jbg-1" data-beat="1" style="background-image: url('assets/journey/beat-pickup.jpg');"></div>
+      <div class="jbg jbg-2" data-beat="2" style="background-image: url('assets/journey/beat-ocean.jpg');"></div>
+      <div class="jbg jbg-3" data-beat="3" style="background-image: url('assets/journey/beat-air.jpg');"></div>
+      <div class="jbg jbg-4" data-beat="4" style="background-image: url('assets/journey/beat-arrival.jpg'); background-color: #0A0D14;"></div>
+    </div>
     <canvas id="journey-canvas" class="journey-canvas"></canvas>
     <aside class="journey-rail" aria-hidden="true">
       <div class="journey-rail__track"><div class="journey-rail__fill" id="journeyRailFill"></div></div>
@@ -1392,8 +1404,37 @@ $$('a[href^="#"]').forEach(a => {
 
 </script>
 
-<!-- 3D Scroll Journey (uses global THREE from globe.gl's three.min.js) -->
-<script src="pages/journey.js" defer></script>
+<!-- Image-backed Scroll Journey (cross-fade + zoom across 5 beats) -->
+<script>
+(function(){
+  const wrap = document.querySelector('.journey-wrap');
+  const slides = Array.from(document.querySelectorAll('#journeyBg .jbg'));
+  const bgEl = document.getElementById('journeyBg');
+  const railFill = document.getElementById('journeyRailFill');
+  const railStops = document.querySelectorAll('.journey-rail__stops li');
+  if(!wrap || !slides.length) return;
+  const N = slides.length; // 5 beats
+  let currentActive = 0;
+
+  function updateJourney(){
+    const rect = wrap.getBoundingClientRect();
+    const total = wrap.offsetHeight - window.innerHeight;
+    const offset = Math.max(0, -rect.top);
+    const p = total > 0 ? Math.max(0, Math.min(1, offset / total)) : 0;
+    const beat = Math.min(N - 1, Math.floor(p * N));
+    if(beat !== currentActive){
+      slides.forEach((s, i) => s.classList.toggle('active', i === beat));
+      bgEl.classList.toggle('journey-bg--right', beat === 1 || beat === 3); // flip gradient for right-aligned copy
+      currentActive = beat;
+    }
+    if(railFill) railFill.style.height = (p * 100) + '%';
+    railStops.forEach((li, i) => li.classList.toggle('active', i === beat));
+  }
+  addEventListener('scroll', updateJourney, { passive: true });
+  addEventListener('resize', updateJourney);
+  updateJourney();
+})();
+</script>
 
 </body>
 </html>

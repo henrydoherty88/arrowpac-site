@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Services — Arrowpac</title>
+<meta name="description" content="Arrowpac services: Ocean LTL/FCL, Priority Air Freight, Flatbed & Specialized, Container Freight Station (CFS) & Puerto Rico warehousing. Weekly sailings from 5 U.S. terminals.">
+<link rel="icon" type="image/svg+xml" href="../assets/arrowpac-logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<link rel="stylesheet" href="_animations.css">
+<style>
+/* services page specific */
+.service-block{ padding: 120px 0; border-bottom: 1px solid var(--ap-gray-200); position: relative; overflow: hidden;}
+.service-block:last-of-type{ border-bottom: 0;}
+.service-block::before{ content: ""; position: absolute; top:0; left:50%; transform:translateX(-50%); width: 60px; height: 1px; background: var(--ap-accent-red); opacity: 0.5;}
+.service-hero{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 80px; align-items:start; max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); position: relative;}
+.service-num{ font-family: var(--display); font-weight:500; font-size: clamp(80px, 12vw, 200px); line-height: 0.9; color: var(--ap-gray-200); letter-spacing:-0.05em; transition: color .6s, transform .6s;}
+.service-block:hover .service-num{ color: var(--ap-accent-red); transform: translateX(8px);}
+.service-info h2{ font-family: var(--display); font-weight:500; font-size: clamp(36px, 4.5vw, 64px); letter-spacing:-0.02em; color: var(--ap-primary); line-height: 1.05; margin-top: -20px;}
+.service-info .tag{ font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--ap-accent-red); text-transform: uppercase; margin-top: 18px;}
+.service-info p.lede{ color: var(--muted); font-size: 17px; line-height: 1.6; margin-top: 20px; max-width: 56ch;}
+.service-features{ list-style: none; margin-top: 32px;}
+.service-features li{ padding: 14px 0; border-bottom: 1px dashed var(--ap-gray-300); display: grid; grid-template-columns: 110px 1fr; gap: 20px; align-items: baseline;}
+.service-features .label{ font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--ap-gray-500); text-transform: uppercase;}
+.service-features .val{ font-size: 15px; color: var(--ink);}
+.service-aside{ position:sticky; top: 100px; background: var(--bg-alt); border-radius: 16px; padding: 32px; border: 1px solid var(--ap-gray-200); transition: box-shadow .4s, transform .4s;}
+.service-aside:hover{ box-shadow: 0 24px 60px rgba(21,27,91,0.14); transform: translateY(-4px);}
+.service-aside::before{ content:""; position:absolute; top:-1px; left:24px; right:24px; height:2px; background: linear-gradient(90deg, var(--ap-primary), var(--ap-accent-red)); border-radius:2px; opacity:0; transition: opacity .4s;}
+.service-aside:hover::before{ opacity:1;}
+.service-aside h4{ font-family: var(--display); font-weight:500; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ap-primary); margin-bottom: 20px;}
+.service-aside .aside-row{ display:flex; justify-content:space-between; padding: 10px 0; font-family: var(--mono); font-size: 12px; border-bottom: 1px dashed var(--ap-gray-300);}
+.service-aside .aside-row:last-child{ border-bottom: 0;}
+.service-aside .aside-row span:first-child{ color: var(--ap-gray-600); letter-spacing: 0.05em;}
+.service-aside .aside-row span:last-child{ color: var(--ap-primary); font-weight: 500;}
+.service-aside .aside-cta{ margin-top: 24px; display:flex; flex-direction: column; gap: 10px;}
+@media (max-width: 960px){ .service-hero{ grid-template-columns: 1fr; gap: 30px;} .service-aside{ position: static;} }
+</style>
+</head>
+<body>
+
+<nav id="nav" class="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-mark" aria-label="Arrowpac home">
+      <span class="nav-mark-wordmark">
+        <span class="ap-arrow">
+          <svg viewBox="0 0 40 16" aria-hidden="true">
+            <path d="M0 5 L26 5 L26 0 L40 8 L26 16 L26 11 L0 11 Z" fill="currentColor"/>
+            
+          </svg>
+        </span>
+        ARROWPAC
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html" data-nav="home">Home</a></li>
+      <li><a href="services.html" data-nav="services">Services</a></li>
+      <li><a href="network.html" data-nav="network">Network</a></li>
+      <li><a href="schedule.html" data-nav="schedule">Schedule</a></li>
+      <li><a href="../index.html#track" data-nav="track">Track</a></li>
+      <li><a href="contact.html" data-nav="contact">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">
+      <span>Request a Quote</span>
+      <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-eyebrow"><span class="dot"></span>SERVICES</div>
+    <h1 class="page-title" data-reveal="blur">Four services. <em>One phone call.</em></h1>
+    <p class="page-lede" data-reveal>Door-to-door freight between the continental U.S., Puerto Rico, the Dominican Republic, and the Caribbean. Same-day pickup. Weekly departures. The largest steamship-line contracts in the trade.</p>
+  </div>
+</header>
+
+<!-- OCEAN -->
+<section id="ocean" class="service-block">
+  <div class="service-hero">
+    <div class="service-info" data-reveal="left">
+      <div class="service-num" data-reveal="scale">01</div>
+      <h2 data-reveal>Ocean LTL &amp; FCL</h2>
+      <div class="tag">Weekly sailings · 5 U.S. terminals · Door-to-door</div>
+      <p class="lede">The workhorse service. Less-than-truckload and full-container-load ocean freight from five U.S. consolidation terminals to Puerto Rico and the Dominican Republic. Same-day LTL pickup. Weekly departures. Through bills-of-lading handle everything from pickup to final delivery.</p>
+      <ul class="service-features" data-stagger>
+        <li data-reveal><span class="label">Modes</span><span class="val">LTL · LCL · FCL · Reefer</span></li>
+        <li data-reveal><span class="label">Origins</span><span class="val">East Windsor NJ · Jacksonville FL · Miami FL · Chicago (Joliet IL) · Los Angeles (Pico Rivera CA)</span></li>
+        <li data-reveal><span class="label">Destinations</span><span class="val">San Juan, PR (Cataño) · Dominican Republic · Caribbean Islands</span></li>
+        <li data-reveal><span class="label">Transit to PR</span><span class="val">Jacksonville 3 days · Miami 4 days · East Windsor 7 days · Chicago 7 days · Los Angeles 12 days</span></li>
+        <li data-reveal><span class="label">Cut-offs</span><span class="val">Typically 1 day before sailing — see Sailing Schedule for terminal-specific cut-offs</span></li>
+        <li data-reveal><span class="label">Documentation</span><span class="val">Through bill-of-lading · Shipper Export Declaration handled · customs brokerage in-house</span></li>
+      </ul>
+    </div>
+    <aside class="service-aside glow-hover" data-reveal="right">
+      <h4>Quick Facts · Ocean</h4>
+      <div class="aside-row"><span>Weekly departures</span><span>5 terminals</span></div>
+      <div class="aside-row"><span>Fastest transit (JAX→SJU)</span><span>3 days</span></div>
+      <div class="aside-row"><span>Pickup window</span><span>Same-day LTL</span></div>
+      <div class="aside-row"><span>Carrier contracts</span><span>Largest in trade</span></div>
+      <div class="aside-cta">
+        <a class="btn btn-primary" href="contact.html">Request ocean quote →</a>
+        <a class="btn btn-ghost" href="schedule.html">See sailing schedule</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- AIR -->
+<section id="air" class="service-block" style="background: var(--bg-alt);">
+  <div class="service-hero">
+    <div class="service-info" data-reveal="left">
+      <div class="service-num" data-reveal="scale">02</div>
+      <h2 data-reveal>Priority Air Freight</h2>
+      <div class="tag">Overnight · 2nd-day · 3rd-day · Deferred</div>
+      <p class="lede">The largest air-freight operation of any NVOCC serving Puerto Rico. Launched 1992. All priority cargo is booked on the next available flight from the nearest gateway — typical transit 1 to 3 days depending on origin and destination.</p>
+      <ul class="service-features" data-stagger>
+        <li data-reveal><span class="label">Tiers</span><span class="val">Overnight · Second-Day · Third-Day · Deferred</span></li>
+        <li data-reveal><span class="label">Service</span><span class="val">Door-to-door · priority space on next available flight</span></li>
+        <li data-reveal><span class="label">Gateways</span><span class="val">Nearest to origin · managed through annual air-cargo contract</span></li>
+        <li data-reveal><span class="label">Transit</span><span class="val">1–3 days depending on lane + tier</span></li>
+        <li data-reveal><span class="label">Pickup</span><span class="val">800-222-2003 · 201-770-9001</span></li>
+        <li data-reveal><span class="label">Contact</span><span class="val">arrowpacair@arrowpac.com</span></li>
+      </ul>
+    </div>
+    <aside class="service-aside glow-hover" data-reveal="right">
+      <h4>Quick Facts · Air</h4>
+      <div class="aside-row"><span>Operational since</span><span>1992</span></div>
+      <div class="aside-row"><span>Typical transit</span><span>1–3 days</span></div>
+      <div class="aside-row"><span>Position vs NVOCC peers</span><span>#1 by volume</span></div>
+      <div class="aside-row"><span>Tiers</span><span>4</span></div>
+      <div class="aside-cta">
+        <a class="btn btn-primary" href="contact.html">Request air quote →</a>
+        <a class="btn btn-ghost" href="tel:8002222003">Call 800-222-2003</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FLATBED -->
+<section id="flatbed" class="service-block">
+  <div class="service-hero">
+    <div class="service-info" data-reveal="left">
+      <div class="service-num" data-reveal="scale">03</div>
+      <h2 data-reveal>Flatbed &amp; Specialized</h2>
+      <div class="tag">Oversized · Project cargo · One phone call</div>
+      <p class="lede">Door-to-door flatbed and oversized movements between the U.S. and Puerto Rico. Through volume contracts with steamship lines, we handle specialized cargo — hotel construction, heavy equipment, project cargo — with all the moving parts taken care of: permits, tarping, chains, escorts.</p>
+      <ul class="service-features" data-stagger>
+        <li data-reveal><span class="label">Use cases</span><span class="val">Hotel construction · heavy equipment · project cargo · oversize/overweight</span></li>
+        <li data-reveal><span class="label">Handled</span><span class="val">Special permits · tarping · chains · escort arrangements</span></li>
+        <li data-reveal><span class="label">Service</span><span class="val">Door-to-door coordination · single point of contact</span></li>
+        <li data-reveal><span class="label">Pairs with</span><span class="val">Universal Container Line (full-load FCL for retail, pharma, high-volume)</span></li>
+      </ul>
+    </div>
+    <aside class="service-aside glow-hover" data-reveal="right">
+      <h4>Quick Facts · Flatbed</h4>
+      <div class="aside-row"><span>Contract type</span><span>Steamship volume</span></div>
+      <div class="aside-row"><span>Permits included</span><span>Yes</span></div>
+      <div class="aside-row"><span>Single point of contact</span><span>Yes</span></div>
+      <div class="aside-cta">
+        <a class="btn btn-primary" href="contact.html">Request flatbed quote →</a>
+        <a class="btn btn-ghost" href="tel:8002222003">Call 800-222-2003</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- CFS -->
+<section id="cfs" class="service-block" style="background: var(--bg-alt);">
+  <div class="service-hero">
+    <div class="service-info" data-reveal="left">
+      <div class="service-num" data-reveal="scale">04</div>
+      <h2 data-reveal>CFS &amp; Puerto Rico Warehousing</h2>
+      <div class="tag">Container Freight Station · Daily PR delivery</div>
+      <p class="lede">Container Freight Station (CFS) operations at three U.S. facilities — a 120,000 sq ft flagship in Joliet IL, plus Miami and Jacksonville — with full-scale Puerto Rico warehousing and distribution from our Cataño facility. Daily deliveries islandwide.</p>
+      <ul class="service-features" data-stagger>
+        <li data-reveal><span class="label">CFS Joliet</span><span class="val">120,000 sq ft · U.S. Customs-licensed · receives &amp; clears imported freight (primarily from China)</span></li>
+        <li data-reveal><span class="label">CFS Miami</span><span class="val">7429 Northwest 48th St, Miami FL — Mike Scarnaty, VP CFS Operations</span></li>
+        <li data-reveal><span class="label">CFS Jacksonville</span><span class="val">2120 Lane Avenue North, Jacksonville FL — Maria Elena Zapata, General Manager</span></li>
+        <li data-reveal><span class="label">PR Warehousing</span><span class="val">Royal Industrial Park, Cataño PR — daily islandwide delivery</span></li>
+        <li data-reveal><span class="label">Services</span><span class="val">Consolidation · cross-dock · customs clearance · reporting · fulfillment</span></li>
+        <li data-reveal><span class="label">Reporting</span><span class="val">Customized email reporting tailored to each customer</span></li>
+      </ul>
+    </div>
+    <aside class="service-aside glow-hover" data-reveal="right">
+      <h4>Quick Facts · CFS</h4>
+      <div class="aside-row"><span>Flagship size</span><span>120,000 sq ft</span></div>
+      <div class="aside-row"><span>U.S. facilities</span><span>3</span></div>
+      <div class="aside-row"><span>PR delivery</span><span>Daily islandwide</span></div>
+      <div class="aside-row"><span>Customs license</span><span>Yes</span></div>
+      <div class="aside-cta">
+        <a class="btn btn-primary" href="contact.html">Request CFS quote →</a>
+        <a class="btn btn-ghost" href="network.html">See all facilities</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="cta-block">
+  <h2>Not sure which service fits your shipment?</h2>
+  <p>Our team has worked every lane between the U.S. and the Caribbean for four decades. One phone call handles the rest.</p>
+  <div class="btns">
+    <a class="btn btn-red btn-lg" href="contact.html">Request a quote →</a>
+    <a class="btn btn-ghost btn-lg" href="tel:8002222003">Call 800-222-2003</a>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-left">
+      <div class="foot-badge">
+        <img src="../assets/arrowpac-logo.svg" alt="Arrowpac" width="140" height="154">
+      </div>
+      <div class="foot-tag">NVOCC to Puerto Rico &amp; the Caribbean. Since 1980.</div>
+      <div class="foot-hq">
+        HQ · 925 Paterson Plank Rd, Secaucus NJ 07094<br>
+        201-770-9001 · arrowpacair@arrowpac.com
+      </div>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-col">
+        <div class="foot-h">Services</div>
+        <a href="services.html#ocean">Ocean</a><a href="services.html#air">Air</a><a href="services.html#flatbed">Flatbed</a><a href="services.html#cfs">CFS &amp; Warehousing</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Network</div>
+        <a href="network.html#la">Los Angeles</a><a href="network.html#chi">Chicago</a><a href="network.html#ew">East Windsor</a><a href="network.html#jax">Jacksonville</a><a href="network.html#mia">Miami</a><a href="network.html#sj">San Juan</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Company</div>
+        <a href="contact.html">Contact &amp; Quote</a><a href="schedule.html">Sailing Schedule</a><a href="../index.html#track">Track a Shipment</a><a href="contact.html#procedures">Operating Procedures</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 1980–2026 Arrowpac Inc. · Employee-owned</span>
+    <span>FMC-Licensed NVOCC · #1 volume to PR per <em style="font-style:italic">Caribbean Business</em> 1996–present</span>
+  </div>
+</footer>
+
+<script src="_animations.js"></script>
+<script>
+addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 30), {passive:true});
+document.querySelectorAll('[data-nav="services"]').forEach(a => a.classList.add('active'));
+</script>
+</body>
+</html>

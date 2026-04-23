@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="ArrowPac">
+  
+  <path d="M 100 10 L 100 150 L 18 150 Z" fill="#151b5b"></path>
+  
+  <path d="M 100 10 L 100 150 L 182 150 Z" fill="#BC0C06"></path>
+  
+  <path d="M 38 108 L 120 108 L 120 92 L 156 118 L 120 144 L 120 128 L 38 128 Z" fill="#ffffff"></path>
+  
+  <text x="100" y="192" text-anchor="middle" font-family="&#39;Helvetica Neue&#39;, Arial, sans-serif" font-weight="800" font-size="30" letter-spacing="1.2" fill="#BC0C06">ARROWPAC</text>
+  
+  <rect x="18" y="208" width="164" height="3" fill="#BC0C06"></rect>
+</svg>

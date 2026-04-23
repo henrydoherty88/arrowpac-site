@@ -1,0 +1,147 @@
+/* ============ ARROWPAC SHARED ANIMATIONS ============ */
+/* Drop-in library. Add `data-reveal` to any element to scroll-reveal it. */
+
+/* Scroll progress bar */
+.scroll-progress{
+  position: fixed; top: 0; left: 0; height: 3px;
+  width: 0%; background: linear-gradient(90deg, var(--ap-primary), var(--ap-accent-red));
+  z-index: 200; transition: width .15s linear; box-shadow: 0 0 14px rgba(188,12,6,0.35);
+}
+
+/* Scroll-reveal base — starts hidden, reveals via IntersectionObserver */
+[data-reveal]{
+  opacity: 0; transform: translateY(40px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--rev-delay, 0s);
+}
+[data-reveal].rev-in{ opacity: 1; transform: translateY(0); }
+[data-reveal="left"]{ transform: translateX(-60px); }
+[data-reveal="left"].rev-in{ transform: translateX(0); }
+[data-reveal="right"]{ transform: translateX(60px); }
+[data-reveal="right"].rev-in{ transform: translateX(0); }
+[data-reveal="scale"]{ transform: scale(0.92); }
+[data-reveal="scale"].rev-in{ transform: scale(1); }
+[data-reveal="blur"]{ filter: blur(10px); }
+[data-reveal="blur"].rev-in{ filter: blur(0); }
+
+/* Stagger helper — apply to a parent; children auto-delay */
+[data-stagger] > *[data-reveal]:nth-child(1){ --rev-delay: 0.05s; }
+[data-stagger] > *[data-reveal]:nth-child(2){ --rev-delay: 0.15s; }
+[data-stagger] > *[data-reveal]:nth-child(3){ --rev-delay: 0.25s; }
+[data-stagger] > *[data-reveal]:nth-child(4){ --rev-delay: 0.35s; }
+[data-stagger] > *[data-reveal]:nth-child(5){ --rev-delay: 0.45s; }
+[data-stagger] > *[data-reveal]:nth-child(6){ --rev-delay: 0.55s; }
+[data-stagger] > *[data-reveal]:nth-child(7){ --rev-delay: 0.65s; }
+[data-stagger] > *[data-reveal]:nth-child(n+8){ --rev-delay: 0.75s; }
+
+/* Back-to-top button */
+.back-top{
+  position: fixed; right: 24px; bottom: 24px; z-index: 80;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--ap-primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(20px) scale(0.9); pointer-events: none;
+  transition: all .3s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 8px 24px rgba(21,27,91,0.25);
+  cursor: pointer;
+}
+.back-top.show{ opacity: 1; transform: translateY(0) scale(1); pointer-events: auto;}
+.back-top:hover{ background: var(--ap-accent-red); transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 30px rgba(188,12,6,0.35);}
+.back-top svg{ width: 16px; height: 16px;}
+
+/* Pulsing red dot (reusable) */
+@keyframes ap-pulse{
+  0%,100%{ transform: scale(1); opacity: 1;}
+  50%{ transform: scale(1.3); opacity: 0.7;}
+}
+.ap-pulse-dot{
+  display: inline-block; width: 8px; height: 8px;
+  background: var(--ap-accent-red); border-radius: 50%;
+  animation: ap-pulse 2s ease-in-out infinite;
+}
+
+/* Shimmer line (for section dividers) */
+@keyframes ap-shimmer{
+  0%{ background-position: -200% 0;}
+  100%{ background-position: 200% 0;}
+}
+.ap-shimmer-line{
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--ap-primary) 30%, var(--ap-accent-red) 50%, var(--ap-primary) 70%, transparent 100%);
+  background-size: 200% 100%;
+  animation: ap-shimmer 3s linear infinite;
+}
+
+/* Count-up number (set data-count, uses JS observer) */
+.count-up{ font-variant-numeric: tabular-nums; }
+
+/* Card hover glow */
+.glow-hover{
+  position: relative; overflow: hidden;
+}
+.glow-hover::before{
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(188,12,6,0.15) 0%, transparent 40%);
+  opacity: 0; transition: opacity .3s;
+}
+.glow-hover:hover::before{ opacity: 1; }
+
+/* Table row stagger */
+.ap-table tbody tr{
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .5s, transform .5s;
+  transition-delay: calc(var(--row-i, 0) * 60ms);
+}
+.ap-table.revealed tbody tr{ opacity: 1; transform: translateY(0);}
+
+/* Input focus dance */
+.f-field{ position: relative;}
+.f-field input, .f-field select, .f-field textarea{
+  transition: border-color .3s, box-shadow .3s, transform .2s;
+}
+.f-field input:focus, .f-field select:focus, .f-field textarea:focus{
+  transform: translateY(-1px);
+}
+
+/* Ripple button click effect */
+.btn-ripple{ position: relative; overflow: hidden;}
+.btn-ripple::after{
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--rx) var(--ry), rgba(255,255,255,0.5) 0%, transparent 40%);
+  opacity: 0; transition: opacity .6s;
+}
+.btn-ripple.rippling::after{ opacity: 1;}
+
+/* Magnetic link (cursor-responsive) */
+.magnetic{ transition: transform .2s cubic-bezier(.2,.7,.2,1);}
+
+/* Text underline sweep */
+@keyframes ap-underline-sweep{
+  0%{ background-size: 0% 2px;}
+  100%{ background-size: 100% 2px;}
+}
+.underline-sweep{
+  background: linear-gradient(var(--ap-accent-red), var(--ap-accent-red)) no-repeat left bottom;
+  background-size: 0% 2px;
+  transition: background-size .5s cubic-bezier(.2,.7,.2,1);
+}
+.underline-sweep:hover{ background-size: 100% 2px;}
+
+/* Floating elements */
+@keyframes ap-float{
+  0%,100%{ transform: translateY(0);}
+  50%{ transform: translateY(-8px);}
+}
+.ap-float{ animation: ap-float 6s ease-in-out infinite;}
+.ap-float-slow{ animation: ap-float 8s ease-in-out infinite;}
+.ap-float-fast{ animation: ap-float 4s ease-in-out infinite;}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal]{ opacity: 1 !important; transform: none !important; filter: none !important;}
+}

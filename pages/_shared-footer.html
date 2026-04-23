@@ -1,0 +1,70 @@
+<!-- reusable footer — paste at bottom of each subpage before </body> -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-left">
+      <div class="foot-badge">
+        <img src="../assets/arrowpac-logo.svg" alt="Arrowpac" width="140" height="154">
+      </div>
+      <div class="foot-tag">NVOCC to Puerto Rico &amp; the Caribbean. Since 1980.</div>
+      <div class="foot-hq">
+        HQ · 925 Paterson Plank Rd, Secaucus NJ 07094<br>
+        201-770-9001 · arrowpacair@arrowpac.com
+      </div>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-col">
+        <div class="foot-h">Services</div>
+        <a href="services.html#ocean">Ocean</a>
+        <a href="services.html#air">Air</a>
+        <a href="services.html#flatbed">Flatbed</a>
+        <a href="services.html#cfs">CFS &amp; Warehousing</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Network</div>
+        <a href="network.html#la">Los Angeles</a>
+        <a href="network.html#chi">Chicago</a>
+        <a href="network.html#ew">East Windsor</a>
+        <a href="network.html#jax">Jacksonville</a>
+        <a href="network.html#mia">Miami</a>
+        <a href="network.html#sj">San Juan</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Company</div>
+        <a href="contact.html">Contact &amp; Quote</a>
+        <a href="schedule.html">Sailing Schedule</a>
+        <a href="../index.html#track">Track a Shipment</a>
+        <a href="contact.html#procedures">Operating Procedures</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 1980–2026 Arrowpac Inc. · Employee-owned</span>
+    <span>FMC-Licensed NVOCC · #1 volume to PR per <em style="font-style:italic">Caribbean Business</em> 1996–present</span>
+  </div>
+</footer>
+
+<script>
+/* nav scroll state */
+addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 30);
+}, { passive:true });
+
+/* highlight current page in nav */
+(function(){
+  const path = location.pathname.split('/').pop().replace('.html','');
+  document.querySelectorAll('[data-nav]').forEach(a => {
+    if(a.dataset.nav === path) a.classList.add('active');
+  });
+})();
+
+/* smooth scroll offset */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if(id.length > 1){
+      const el = document.querySelector(id);
+      if(el){ e.preventDefault(); window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 60, behavior:'smooth' }); }
+    }
+  });
+});
+</script>

@@ -241,6 +241,10 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
 .journey-bg .jbg.active{ opacity:1; transform: scale(1);}
 .journey-bg::after{ content:""; position:absolute; inset:0; background: linear-gradient(90deg, rgba(10,13,20,0.85) 0%, rgba(10,13,20,0.45) 42%, rgba(10,13,20,0.15) 70%, rgba(10,13,20,0.55) 100%); pointer-events:none;}
 .journey-bg--right::after{ background: linear-gradient(270deg, rgba(10,13,20,0.85) 0%, rgba(10,13,20,0.45) 42%, rgba(10,13,20,0.15) 70%, rgba(10,13,20,0.55) 100%);}
+.journey-bg--center::after{ background:
+  radial-gradient(ellipse 60% 40% at 50% 50%, rgba(10,13,20,0.82) 0%, rgba(10,13,20,0.60) 55%, rgba(10,13,20,0.35) 85%, rgba(10,13,20,0.55) 100%),
+  linear-gradient(180deg, rgba(10,13,20,0.25) 0%, transparent 40%, transparent 60%, rgba(10,13,20,0.30) 100%);
+}
 .journey-beats{ position:relative; z-index:2; margin-top: -100vh;}
 .jbeat{ min-height: 100vh; display:flex; align-items:center; padding: 80px var(--pad); position:relative;}
 .jbeat-inner{ max-width: 560px; width: 100%;}
@@ -1424,7 +1428,9 @@ $$('a[href^="#"]').forEach(a => {
     const beat = Math.min(N - 1, Math.floor(p * N));
     if(beat !== currentActive){
       slides.forEach((s, i) => s.classList.toggle('active', i === beat));
-      bgEl.classList.toggle('journey-bg--right', beat === 1 || beat === 3); // flip gradient for right-aligned copy
+      bgEl.classList.remove('journey-bg--right', 'journey-bg--center');
+      if(beat === 1 || beat === 3) bgEl.classList.add('journey-bg--right');
+      else if(beat === 4) bgEl.classList.add('journey-bg--center');
       currentActive = beat;
     }
     if(railFill) railFill.style.height = (p * 100) + '%';

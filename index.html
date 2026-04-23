@@ -13,9 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
-<script src="https://unpkg.com/globe.gl@2.38.0/dist/globe.gl.min.js"></script>
-<script src="assets/countries.js"></script>
+<!-- globe.gl + Three.js removed — hero now uses a cinematic video globe -->
 <style>
 /* ============ TOKENS ============ */
 :root{
@@ -118,8 +116,7 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
 .hero-text{ position:relative; z-index:3;}
 .hero-stage{ position:relative; aspect-ratio: 5/6; min-height: 580px; border-radius: 20px; overflow:hidden; background: linear-gradient(160deg, #f2f4f8 0%, #e9edf4 50%, #e0e6f0 100%); border:1px solid var(--ap-gray-300); box-shadow: 0 30px 80px rgba(21,27,91,0.10), 0 6px 20px rgba(21,27,91,0.06); transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.7,.2,1); will-change: transform;}
 .hero-stage .hero-scene, .hero-stage .hero-stage-label{ transform: translateZ(30px);}
-.globe-canvas{ position:absolute; inset:0; z-index:1;}
-.globe-canvas canvas{ width:100% !important; height:100% !important; display:block; outline:none;}
+.hero-stage-video{ position:absolute; inset:0; width:100%; height:100%; object-fit: cover; z-index:1; filter: saturate(1.05) contrast(1.02);}
 .hero-stage-label{ position:absolute; top:20px; left:20px; z-index:5; font-family: var(--mono); font-size:10px; letter-spacing:0.2em; color: var(--ap-primary); background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 999px; text-transform: uppercase; border: 1px solid var(--ap-gray-300);}
 .hero-stage-label .dot{ display:inline-block; width:6px; height:6px; background: var(--ap-accent); border-radius:50%; margin-right:8px; vertical-align:middle; animation: pulse 2s infinite;}
 .hero-stage-tag{ position:absolute; bottom:20px; left:20px; z-index:5; font-family: var(--mono); font-size:10px; letter-spacing:0.18em; color: var(--ap-gray-700); text-transform: uppercase; background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); padding: 8px 14px; border-radius: 6px; border-left: 2px solid var(--ap-accent);}
@@ -237,8 +234,9 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
 .journey-sticky{ position:sticky; top:0; height:100vh; width:100%; overflow:hidden; background: #0A0D14;}
 .journey-canvas{ display:none;} /* old Three.js canvas retired */
 .journey-bg{ position:absolute; inset:0; width:100%; height:100%;}
-.journey-bg .jbg{ position:absolute; inset:0; background-size: cover; background-position: center; opacity:0; transition: opacity .9s cubic-bezier(.4,0,.2,1), transform 1.8s cubic-bezier(.2,.7,.2,1); transform: scale(1.08);}
+.journey-bg .jbg{ position:absolute; inset:0; background-size: cover; background-position: center; opacity:0; transition: opacity .9s cubic-bezier(.4,0,.2,1), transform 1.8s cubic-bezier(.2,.7,.2,1); transform: scale(1.08); overflow:hidden;}
 .journey-bg .jbg.active{ opacity:1; transform: scale(1);}
+.journey-bg .jbg video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;}
 .journey-bg::after{ content:""; position:absolute; inset:0; background: linear-gradient(90deg, rgba(10,13,20,0.85) 0%, rgba(10,13,20,0.45) 42%, rgba(10,13,20,0.15) 70%, rgba(10,13,20,0.55) 100%); pointer-events:none;}
 .journey-bg--right::after{ background: linear-gradient(270deg, rgba(10,13,20,0.85) 0%, rgba(10,13,20,0.45) 42%, rgba(10,13,20,0.15) 70%, rgba(10,13,20,0.55) 100%);}
 .journey-bg--center::after{ background:
@@ -369,6 +367,9 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
 
 /* ============ TRACK ============ */
 .track{ padding: 120px var(--pad); background: var(--ap-gray-900); color:#fff; position: relative; overflow: hidden;}
+.track-bg-video{ position:absolute; inset:0; width:100%; height:100%; object-fit: cover; z-index:0; opacity:0.55; filter: saturate(1.15) contrast(1.05);}
+.track-bg-overlay{ position:absolute; inset:0; z-index:1; background: linear-gradient(180deg, rgba(29,29,29,0.78) 0%, rgba(29,29,29,0.55) 45%, rgba(29,29,29,0.85) 100%); pointer-events:none;}
+.track .track-inner, .track > *:not(.track-bg-video):not(.track-bg-overlay){ position:relative; z-index:2;}
 .track::before{ content:""; position:absolute; top:0; left:0; right:0; height:1px; background: linear-gradient(90deg, transparent, var(--ap-accent-red), transparent); opacity:0.5;}
 .track-inner{ max-width: var(--container); margin:0 auto; display:grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items:start;}
 .track .section-title{ color: #fff;}
@@ -542,8 +543,10 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
       <div class="hero-stage-label"><span class="dot"></span>LIVE · WEEKLY SAILINGS</div>
       <div class="hero-stage-tag">East Windsor → San&nbsp;Juan · 7 days</div>
       <div class="hero-scene">
-      <!-- 3D rotating globe with freight arcs -->
-      <div id="globeViz" class="globe-canvas"></div>
+      <!-- Cinematic 3D globe video — autoplay loop, freight arcs animating -->
+      <video class="hero-stage-video" autoplay muted loop playsinline preload="auto" poster="assets/journey/beat-ocean.jpg">
+        <source src="assets/videos/clip-c.mp4" type="video/mp4">
+      </video>
 
       <!-- ship silhouette moving along horizon -->
       <div class="ship-track">
@@ -692,8 +695,8 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
     <div class="journey-bg" id="journeyBg" aria-hidden="true">
       <div class="jbg jbg-0 active" data-beat="0" style="background-image: url('assets/journey/beat-modes.jpg');"></div>
       <div class="jbg jbg-1" data-beat="1" style="background-image: url('assets/journey/beat-pickup.jpg');"></div>
-      <div class="jbg jbg-2" data-beat="2" style="background-image: url('assets/journey/beat-ocean.jpg');"></div>
-      <div class="jbg jbg-3" data-beat="3" style="background-image: url('assets/journey/beat-air.jpg');"></div>
+      <div class="jbg jbg-2 jbg--video" data-beat="2" data-video="assets/videos/clip-d.mp4" data-poster="assets/journey/beat-ocean.jpg"></div>
+      <div class="jbg jbg-3 jbg--video" data-beat="3" data-video="assets/videos/clip-a.mp4" data-poster="assets/journey/beat-air.jpg"></div>
       <div class="jbg jbg-4" data-beat="4" style="background-image: url('assets/journey/beat-arrival.jpg'); background-color: #0A0D14;"></div>
     </div>
     <canvas id="journey-canvas" class="journey-canvas"></canvas>
@@ -946,6 +949,10 @@ code{ font-family: var(--mono); background: var(--bg-alt); padding: 1px 6px; bor
 
 <!-- TRACK -->
 <section class="track" id="track">
+  <video class="track-bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="assets/videos/clip-b.mp4" type="video/mp4">
+  </video>
+  <div class="track-bg-overlay" aria-hidden="true"></div>
   <div class="track-inner">
     <div class="track-copy">
       <div class="section-eyebrow"><span class="dot red"></span>LIVE STATUS</div>
@@ -1153,118 +1160,7 @@ addEventListener('scroll', updateStack, { passive:true });
 addEventListener('resize', updateStack);
 updateStack();
 
-/* ---------- 3D GLOBE with freight arcs ---------- */
-(function initGlobe(){
-  const el = document.getElementById('globeViz');
-  if(!el || typeof Globe === 'undefined') return;
-
-  // Terminal coordinates
-  const TERMS = {
-    la:  { name:'Los Angeles',    lat: 33.95, lng:-118.10, color:'#151b5b', origin:true },
-    chi: { name:'Chicago',        lat: 41.52, lng: -88.08, color:'#151b5b', origin:true },
-    ew:  { name:'East Windsor',   lat: 40.26, lng: -74.55, color:'#151b5b', origin:true },
-    jax: { name:'Jacksonville',   lat: 30.35, lng: -81.73, color:'#151b5b', origin:true },
-    mia: { name:'Miami',          lat: 25.82, lng: -80.31, color:'#151b5b', origin:true },
-    sj:  { name:'San Juan, PR',   lat: 18.42, lng: -66.06, color:'#BC0C06' },
-    dr:  { name:'Santo Domingo',  lat: 18.47, lng: -69.89, color:'#BC0C06' },
-    sti: { name:'St. Thomas, USVI',lat:18.34, lng: -64.93, color:'#BC0C06' },
-  };
-  const origins = Object.values(TERMS).filter(t => t.origin);
-  const dests   = Object.values(TERMS).filter(t => !t.origin);
-
-  // Build arcs: every origin → every destination
-  const arcs = [];
-  origins.forEach(o => {
-    dests.forEach(d => {
-      arcs.push({
-        startLat: o.lat, startLng: o.lng,
-        endLat: d.lat,   endLng: d.lng,
-        color: [ 'rgba(21,27,91,0.55)', 'rgba(188,12,6,0.85)' ]
-      });
-    });
-  });
-
-  const points = Object.values(TERMS).map(t => ({
-    lat: t.lat, lng: t.lng, size: t.origin ? 0.45 : 0.65, color: t.color, name: t.name
-  }));
-
-  const labels = Object.values(TERMS).map(t => ({
-    lat: t.lat, lng: t.lng, text: t.name, color: t.origin ? '#151b5b' : '#BC0C06',
-    size: t.origin ? 0.6 : 0.9
-  }));
-
-  const globe = Globe({ animateIn: true })
-    (el)
-    .backgroundColor('rgba(0,0,0,0)')
-    .showAtmosphere(true)
-    .atmosphereColor('#1e73be')
-    .atmosphereAltitude(0.18)
-    .hexPolygonsData([])                       // set below after fetch
-    .hexPolygonResolution(3)
-    .hexPolygonMargin(0.35)
-    .hexPolygonUseDots(true)
-    .hexPolygonColor(() => 'rgba(21,27,91,0.7)')
-    .arcsData(arcs)
-    .arcColor('color')
-    .arcAltitude(0.18)
-    .arcStroke(0.45)
-    .arcDashLength(0.5)
-    .arcDashGap(0.25)
-    .arcDashAnimateTime(2400)
-    .pointsData(points)
-    .pointColor('color')
-    .pointAltitude(0.015)
-    .pointRadius('size')
-    .labelsData(labels)
-    .labelText('text')
-    .labelColor('color')
-    .labelSize('size')
-    .labelDotRadius(0.3)
-    .labelResolution(2)
-    .labelAltitude(0.02);
-
-  // Soft globe base color (land look)
-  globe.globeMaterial().color = new THREE.Color('#f0f1f5');
-  globe.globeMaterial().transparent = false;
-
-  // Country hex polygons — loaded via <script> tag as window.WORLD_GEO (bypasses file:// CORS)
-  if(window.WORLD_GEO && window.WORLD_GEO.features){
-    globe.hexPolygonsData(window.WORLD_GEO.features);
-  }
-
-  // Initial camera angle toward the Atlantic/Caribbean
-  globe.pointOfView({ lat: 28, lng: -70, altitude: 2.1 }, 0);
-
-  // Auto-rotate
-  const controls = globe.controls();
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.4;
-  controls.enableZoom = false;
-  controls.enablePan = false;
-
-  // Responsive size to container
-  function fit(){
-    const r = el.getBoundingClientRect();
-    globe.width(r.width).height(r.height);
-  }
-  fit();
-  addEventListener('resize', fit);
-
-  // Scroll-responsive tilt (subtle): adjust camera altitude as user scrolls through hero
-  let rafId;
-  addEventListener('scroll', () => {
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      const hero = document.querySelector('.hero');
-      if(!hero) return;
-      const rect = hero.getBoundingClientRect();
-      const prog = Math.min(1, Math.max(0, -rect.top / rect.height));
-      const alt = 2.1 + prog * 0.6;
-      const latShift = 28 - prog * 18;
-      globe.pointOfView({ lat: latShift, lng: -70, altitude: alt }, 200);
-    });
-  }, { passive:true });
-})();
+/* initGlobe() removed — hero now uses a cinematic video element (see .hero-stage-video) */
 
 /* ---------- 3D tilt on hero-stage + service cards ---------- */
 (function tilt3D(){
@@ -1408,7 +1304,7 @@ $$('a[href^="#"]').forEach(a => {
 
 </script>
 
-<!-- Image-backed Scroll Journey (cross-fade + zoom across 5 beats) -->
+<!-- Image + scroll-scrub video journey (5 beats) -->
 <script>
 (function(){
   const wrap = document.querySelector('.journey-wrap');
@@ -1417,15 +1313,42 @@ $$('a[href^="#"]').forEach(a => {
   const railFill = document.getElementById('journeyRailFill');
   const railStops = document.querySelectorAll('.journey-rail__stops li');
   if(!wrap || !slides.length) return;
-  const N = slides.length; // 5 beats
+  const N = slides.length;
   let currentActive = 0;
+
+  // Mount videos into video-slides (lazy) + collect per-slide local progress
+  const videoSlides = [];
+  slides.forEach((s, i) => {
+    if(s.classList.contains('jbg--video')){
+      const src = s.dataset.video;
+      const poster = s.dataset.poster;
+      if(poster) s.style.backgroundImage = `url('${poster}')`;
+      const v = document.createElement('video');
+      v.muted = true; v.playsInline = true; v.preload = 'auto';
+      v.setAttribute('muted',''); v.setAttribute('playsinline','');
+      v.innerHTML = `<source src="${src}" type="video/mp4">`;
+      s.appendChild(v);
+      videoSlides.push({ slide: s, video: v, beat: i });
+    }
+  });
+
+  // Scroll-scrub: set currentTime based on local progress through the beat
+  function scrubVideo(v, localP){
+    if(!v.duration || isNaN(v.duration)) return;
+    const t = Math.max(0, Math.min(v.duration - 0.05, localP * v.duration));
+    // only set if difference is meaningful (avoid jitter)
+    if(Math.abs(v.currentTime - t) > 0.05) v.currentTime = t;
+  }
 
   function updateJourney(){
     const rect = wrap.getBoundingClientRect();
     const total = wrap.offsetHeight - window.innerHeight;
     const offset = Math.max(0, -rect.top);
     const p = total > 0 ? Math.max(0, Math.min(1, offset / total)) : 0;
-    const beat = Math.min(N - 1, Math.floor(p * N));
+    const scaled = p * N;
+    const beat = Math.min(N - 1, Math.floor(scaled));
+    const localP = scaled - beat; // 0..1 within this beat
+
     if(beat !== currentActive){
       slides.forEach((s, i) => s.classList.toggle('active', i === beat));
       bgEl.classList.remove('journey-bg--right', 'journey-bg--center');
@@ -1435,9 +1358,20 @@ $$('a[href^="#"]').forEach(a => {
     }
     if(railFill) railFill.style.height = (p * 100) + '%';
     railStops.forEach((li, i) => li.classList.toggle('active', i === beat));
+
+    // scrub videos: only the active video gets scrubbed to match local progress
+    videoSlides.forEach(({ video, beat: vbeat }) => {
+      if(vbeat === beat) scrubVideo(video, localP);
+    });
   }
   addEventListener('scroll', updateJourney, { passive: true });
   addEventListener('resize', updateJourney);
+
+  // Wait for video metadata so duration is known before first scrub
+  videoSlides.forEach(({ video }) => {
+    video.addEventListener('loadedmetadata', updateJourney, { once: true });
+  });
+
   updateJourney();
 })();
 </script>
